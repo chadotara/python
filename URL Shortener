@@ -1,1 +1,40 @@
+from tkinter import *   # To create graphical User Interface
+import pyshorteners     # To short and expand urls
+import pyperclip        # To copy and paste text to clipboard
 
+
+
+def shorten_url():
+    URL = LongURL.get()  # Get the URL from the Entry
+    s = pyshorteners.Shortener()
+    shortened_url = s.tinyurl.short(URL)
+    result_url.config(text=f"Shortened URL: {shortened_url}")
+    global new_url      # Converted shortened URL to a global variable for later use
+    new_url = shortened_url
+
+def copy_funcn():
+    pyperclip.copy(new_url)             # Copying the shortened URL to the clipboard
+
+
+window=Tk()             #GUI interface added for better visuals and practice
+window.title("URL Shortener")
+window.geometry("500x250")
+window.configure(bg="pink")
+label1=Label(window, text="URL Shortening Window", font=("calibri ",26, "bold"), fg="grey")
+label1.pack(fill=BOTH)
+
+
+Longurl=StringVar()         #String adding
+LongURL=Entry(window,textvariable=Longurl, bg="white", width=40)
+LongURL.place(x=120 , y=80)
+
+button1=Button(window, text='Generate New URL',command=shorten_url, width=15)
+button1.place(x=180, y=120)
+
+result_url = Label(window, text="", font=("calibri", 12),bg="pink")
+result_url.place(x=120 , y=160)
+
+button2=Button(window, text='Copy New URL', width=15,command=copy_funcn)
+button2.place(x=180, y=200)
+
+window.mainloop()
